@@ -40,12 +40,6 @@ npm start
 
 This will build the library and start the demo app.
 
-### Build for production
-
-```bash
-npm run build:lib:prod
-```
-
 ## Documentation
 
 See the [library README](./projects/ngx-apextree/README.md) for usage documentation.
