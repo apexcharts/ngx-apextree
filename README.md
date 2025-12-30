@@ -46,15 +46,6 @@ This will build the library and start the demo app.
 npm run build:lib:prod
 ```
 
-## Publishing
-
-The publishable library is located in `dist/ngx-apextree` after building.
-
-```bash
-cd dist/ngx-apextree
-npm publish
-```
-
 ## Documentation
 
 See the [library README](./projects/ngx-apextree/README.md) for usage documentation.
