@@ -1,0 +1,25 @@
+# source files
+src/
+*.ts
+!*.d.ts
+
+# config files
+tsconfig*.json
+ng-package.json
+.editorconfig
+
+# test files
+*.spec.ts
+karma.conf.js
+test.ts
+
+# development
+.angular/
+.vscode/
+.idea/
+
+# misc
+*.log
+*.map
+.DS_Store
+Thumbs.db

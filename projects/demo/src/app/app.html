@@ -1,0 +1,126 @@
+<div class="demo-container">
+  <header class="demo-header">
+    <h1>ngx-apextree Demo</h1>
+    <p>Angular wrapper for ApexTree - Organizational & Hierarchical Charts</p>
+  </header>
+
+  <nav class="demo-nav">
+    <button [class.active]="currentDemo === 'basic'" (click)="setDemo('basic')">Basic Tree</button>
+    <button [class.active]="currentDemo === 'custom'" (click)="setDemo('custom')">
+      Custom Node
+    </button>
+    <button [class.active]="currentDemo === 'tooltip'" (click)="setDemo('tooltip')">
+      Custom Tooltip
+    </button>
+    <button [class.active]="currentDemo === 'interactive'" (click)="setDemo('interactive')">
+      Interactive
+    </button>
+  </nav>
+
+  <div class="demo-controls">
+    <span class="control-label">Layout Direction:</span>
+    <button (click)="changeLayout('top')">↑ Top</button>
+    <button (click)="changeLayout('bottom')">↓ Bottom</button>
+    <button (click)="changeLayout('left')">← Left</button>
+    <button (click)="changeLayout('right')">→ Right</button>
+    <button (click)="fitScreen()" class="fit-btn">Fit Screen</button>
+  </div>
+
+  <main class="demo-content">
+    <!-- basic tree demo -->
+    @if (currentDemo === 'basic') {
+    <div class="demo-section">
+      <h2>Basic Tree</h2>
+      <p class="demo-description">
+        Simple hierarchical tree with default node styling and built-in toolbar.
+      </p>
+      <ngx-apextree
+        #basicTree
+        [data]="basicTreeData"
+        [options]="basicTreeOptions"
+        (nodeClick)="onNodeClick($event)"
+        (graphReady)="onGraphReady($event)"
+      >
+      </ngx-apextree>
+    </div>
+    }
+
+    <!-- custom template demo -->
+    @if (currentDemo === 'custom') {
+    <div class="demo-section">
+      <h2>Custom Node Template</h2>
+      <p class="demo-description">Organization chart with custom Angular templates for nodes.</p>
+      <ngx-apextree
+        #customTree
+        [data]="customTreeData"
+        [options]="customTreeOptions"
+        (nodeClick)="onNodeClick($event)"
+        (graphReady)="onGraphReady($event)"
+      >
+        <ng-template #nodeTemplate let-content>
+          <div class="custom-node">
+            <img [src]="content.imageURL" [alt]="content.name" class="avatar" />
+            <div class="info">
+              <span class="name">{{ content.name }}</span>
+              <span class="role">{{ content.role }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-apextree>
+    </div>
+    }
+
+    <!-- tooltip template demo -->
+    @if (currentDemo === 'tooltip') {
+    <div class="demo-section">
+      <h2>Custom Tooltip Template</h2>
+      <p class="demo-description">
+        Hover over nodes to see custom tooltip with detailed employee information.
+      </p>
+      <ngx-apextree
+        #tooltipTree
+        [data]="tooltipTreeData"
+        [options]="tooltipTreeOptions"
+        (nodeClick)="onNodeClick($event)"
+        (graphReady)="onGraphReady($event)"
+      >
+        <ng-template #nodeTemplate let-content>
+          <div class="tooltip-node">
+            <span class="node-name">{{ content.name }}</span>
+            <span class="node-role">{{ content.role }}</span>
+          </div>
+        </ng-template>
+      </ngx-apextree>
+    </div>
+    }
+
+    <!-- interactive demo -->
+    @if (currentDemo === 'interactive') {
+    <div class="demo-section">
+      <h2>Interactive Tree</h2>
+      <p class="demo-description">
+        Click on nodes to see event handling. Use the controls to change layout.
+      </p>
+      <ngx-apextree
+        [data]="interactiveTreeData"
+        [options]="interactiveTreeOptions"
+        (nodeClick)="onNodeClick($event)"
+        (graphReady)="onGraphReady($event)"
+        (graphUpdated)="onGraphUpdated($event)"
+      >
+      </ngx-apextree>
+
+      @if (selectedNode) {
+      <div class="selected-node-info">
+        <h3>Selected Node</h3>
+        <pre>{{ selectedNode | json }}</pre>
+      </div>
+      }
+    </div>
+    }
+  </main>
+
+  <footer class="demo-footer"></footer>
+</div>
+
+<router-outlet />
