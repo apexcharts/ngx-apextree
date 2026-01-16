@@ -8,6 +8,7 @@
     "build:lib": "ng build ngx-apextree",
     "build:lib:prod": "ng build ngx-apextree --configuration production",
     "build:demo": "ng build demo",
+    "build:demo:gh-pages": "ng build demo --base-href /ngx-apextree/",
     "watch": "ng build ngx-apextree --watch",
     "test": "ng test",
     "serve:demo": "ng serve demo"
