@@ -1,121 +1,17 @@
+import ApexTree from 'apextree';
+
 /**
- * tree direction options
+ * Tree configuration options — inferred from the ApexTree constructor.
+ * Stays in sync with core without requiring a deep import.
  */
+export type TreeOptions = NonNullable<ConstructorParameters<typeof ApexTree>[1]>;
+
+/**
+ * Tree node data structure — inferred from the ApexTree render method.
+ */
+export type NestedNode = Parameters<InstanceType<typeof ApexTree>['render']>[0];
+
 export type TreeDirection = 'top' | 'bottom' | 'left' | 'right';
-
-/**
- * node options that can be applied per-node
- */
-export interface NodeOptions {
-  nodeBGColor?: string;
-  nodeBGColorHover?: string;
-  borderColor?: string;
-  borderColorHover?: string;
-  fontSize?: string;
-  fontFamily?: string;
-  fontWeight?: string;
-  fontColor?: string;
-}
-
-/**
- * tree node data structure
- */
-export interface TreeNode<T = any> {
-  id: string;
-  name?: string;
-  data?: T;
-  options?: NodeOptions;
-  children?: TreeNode<T>[];
-}
-
-/**
- * tooltip options
- */
-export interface TooltipOptions {
-  enableTooltip?: boolean;
-  tooltipId?: string;
-  tooltipMaxWidth?: number;
-  tooltipMinWidth?: number;
-  tooltipBorderColor?: string;
-  tooltipBGColor?: string;
-  tooltipFontColor?: string;
-  tooltipFontSize?: string;
-  tooltipPadding?: number;
-  tooltipOffset?: number;
-}
-
-/**
- * font options
- */
-export interface FontOptions {
-  fontSize?: string;
-  fontFamily?: string;
-  fontWeight?: string;
-  fontColor?: string;
-}
-
-/**
- * edge options
- */
-export interface EdgeOptions {
-  edgeWidth?: number;
-  edgeColor?: string;
-  edgeColorHover?: string;
-}
-
-/**
- * node styling options
- */
-export interface NodeStylingOptions {
-  nodeWidth?: number;
-  nodeHeight?: number;
-  nodeBGColor?: string;
-  nodeBGColorHover?: string;
-  borderWidth?: number;
-  borderStyle?: string;
-  borderRadius?: string;
-  borderColor?: string;
-  borderColorHover?: string;
-  nodeStyle?: string;
-  nodeClassName?: string;
-}
-
-/**
- * expand/collapse options
- */
-export interface ExpandCollapseOptions {
-  enableExpandCollapse?: boolean;
-  expandCollapseButtonBGColor?: string;
-  expandCollapseButtonBorderColor?: string;
-}
-
-/**
- * complete tree options
- */
-export interface ApexTreeOptions extends 
-  TooltipOptions, 
-  FontOptions, 
-  EdgeOptions, 
-  NodeStylingOptions,
-  ExpandCollapseOptions {
-  width?: number | string;
-  height?: number | string;
-  direction?: TreeDirection;
-  contentKey?: string;
-  siblingSpacing?: number;
-  childrenSpacing?: number;
-  highlightOnHover?: boolean;
-  containerClassName?: string;
-  canvasStyle?: string;
-  enableToolbar?: boolean;
-  groupLeafNodes?: boolean;
-  groupLeafNodesSpacing?: number;
-  viewPortWidth?: number;
-  viewPortHeight?: number;
-  nodeTemplate?: (content: any) => string;
-  tooltipTemplate?: (content: any) => string;
-  onNodeClick?: (node: any) => void;
-}
 
 /**
  * graph instance returned by render
@@ -130,7 +26,7 @@ export interface ApexTreeGraph {
 /**
  * node click event payload
  */
-export interface NodeClickEvent<T = any> {
-  node: TreeNode<T>;
+export interface NodeClickEvent {
+  node: NestedNode;
   event: MouseEvent;
 }

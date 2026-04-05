@@ -15,7 +15,7 @@ npm install ngx-apextree apextree
 ```typescript
 // app.component.ts
 import { Component } from '@angular/core';
-import { NgxApextreeComponent, TreeNode, ApexTreeOptions } from 'ngx-apextree';
+import { NgxApextreeComponent, NestedNode, TreeOptions } from 'ngx-apextree';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +32,7 @@ import { NgxApextreeComponent, TreeNode, ApexTreeOptions } from 'ngx-apextree';
   `,
 })
 export class AppComponent {
-  treeData: TreeNode = {
+  treeData: NestedNode = {
     id: '1',
     name: 'CEO',
     children: [
@@ -51,7 +51,7 @@ export class AppComponent {
     ],
   };
 
-  treeOptions: ApexTreeOptions = {
+  treeOptions: Partial<TreeOptions> = {
     width: 800,
     height: 600,
     nodeWidth: 150,
@@ -108,7 +108,7 @@ Use Angular's `ng-template` for custom node rendering:
   ],
 })
 export class AppComponent {
-  treeData: TreeNode = {
+  treeData: NestedNode = {
     id: '1',
     data: {
       name: 'John Doe',
@@ -125,7 +125,7 @@ export class AppComponent {
     ],
   };
 
-  treeOptions: ApexTreeOptions = {
+  treeOptions: Partial<TreeOptions> = {
     contentKey: 'data',
     width: 800,
     height: 600,
@@ -147,7 +147,7 @@ You can provide a custom tooltip using the `tooltipTemplate` option:
   template: ` <ngx-apextree [data]="treeData" [options]="treeOptions"></ngx-apextree> `,
 })
 export class AppComponent {
-  treeData: TreeNode = {
+  treeData: NestedNode = {
     id: '1',
     data: {
       name: 'John Doe',
@@ -166,7 +166,7 @@ export class AppComponent {
     ],
   };
 
-  treeOptions: ApexTreeOptions = {
+  treeOptions: Partial<TreeOptions> = {
     contentKey: 'data',
     width: 800,
     height: 600,
@@ -245,8 +245,8 @@ export class AppComponent {
 
 | Input     | Type              | Description           |
 | --------- | ----------------- | --------------------- |
-| `data`    | `TreeNode`        | Tree data structure   |
-| `options` | `ApexTreeOptions` | Configuration options |
+| `data`    | `NestedNode`             | Tree data structure   |
+| `options` | `Partial<TreeOptions>`   | Configuration options |
 
 ### Outputs
 

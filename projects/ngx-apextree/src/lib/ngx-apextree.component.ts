@@ -20,9 +20,9 @@ import {
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import ApexTree from 'apextree';
 import {
-  ApexTreeOptions,
+  TreeOptions,
+  NestedNode,
   ApexTreeGraph,
-  TreeNode,
   NodeClickEvent,
   TreeDirection,
 } from './ngx-apextree.types';
@@ -45,12 +45,12 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
   /**
    * tree data to render
    */
-  @Input() data: TreeNode | null = null;
+  @Input() data: NestedNode | null = null;
 
   /**
    * tree configuration options
    */
-  @Input() options: ApexTreeOptions = {};
+  @Input() options: Partial<TreeOptions> = {};
 
   /**
    * emits when a node is clicked
@@ -226,26 +226,26 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
     this.isInitialized = false;
   }
 
-  private buildOptions(): ApexTreeOptions {
-    const options: ApexTreeOptions = { ...this.options };
+  private buildOptions(): Partial<TreeOptions> {
+    const overrides: Record<string, unknown> = {};
 
     // handle node template
     if (this.nodeTemplateRef) {
-      options.nodeTemplate = (content: any) => {
+      overrides['nodeTemplate'] = (content: any) => {
         return this.renderTemplate(this.nodeTemplateRef!, content);
       };
     }
 
     // handle tooltip template
     if (this.tooltipTemplateRef) {
-      options.tooltipTemplate = (content: any) => {
+      overrides['tooltipTemplate'] = (content: any) => {
         return this.renderTemplate(this.tooltipTemplateRef!, content);
       };
     }
 
     // handle node click
     if (this.nodeClick.observed) {
-      options.onNodeClick = (node: any) => {
+      overrides['onNodeClick'] = (node: any) => {
         this.ngZone.run(() => {
           this.nodeClick.emit({
             node,
@@ -255,7 +255,7 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
       };
     }
 
-    return options as any;
+    return { ...this.options, ...overrides } as Partial<TreeOptions>;
   }
 
   private renderTemplate(templateRef: TemplateRef<any>, content: any): string {

@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import {
   NgxApextreeComponent,
-  TreeNode,
-  ApexTreeOptions,
+  NestedNode,
+  TreeOptions,
   ApexTreeGraph,
   NodeClickEvent,
   TreeDirection,
@@ -26,7 +26,7 @@ export class App {
   graphInstance: ApexTreeGraph | null = null;
 
   // basic tree data
-  basicTreeData: TreeNode = {
+  basicTreeData: NestedNode = {
     id: '1',
     name: 'Species',
     children: [
@@ -69,7 +69,7 @@ export class App {
     ],
   };
 
-  basicTreeOptions: ApexTreeOptions = {
+  basicTreeOptions: Partial<TreeOptions> = {
     width: 900,
     height: 500,
     nodeWidth: 140,
@@ -91,7 +91,7 @@ export class App {
   };
 
   // custom template tree data
-  customTreeData: TreeNode = {
+  customTreeData: NestedNode = {
     id: 'ms',
     data: {
       name: 'Margret Swanson',
@@ -175,7 +175,7 @@ export class App {
     ],
   };
 
-  customTreeOptions: ApexTreeOptions = {
+  customTreeOptions: Partial<TreeOptions> = {
     contentKey: 'data',
     width: 900,
     height: 500,
@@ -192,7 +192,7 @@ export class App {
   };
 
   // tooltip template tree data
-  tooltipTreeData: TreeNode = {
+  tooltipTreeData: NestedNode = {
     id: 'ceo',
     data: {
       name: 'Sarah Johnson',
@@ -265,7 +265,7 @@ export class App {
     ],
   };
 
-  tooltipTreeOptions: ApexTreeOptions = {
+  tooltipTreeOptions: Partial<TreeOptions> = {
     contentKey: 'data',
     width: 900,
     height: 450,
@@ -319,7 +319,7 @@ export class App {
   };
 
   // interactive tree
-  interactiveTreeData: TreeNode = {
+  interactiveTreeData: NestedNode = {
     id: 'root',
     name: 'Root Node',
     children: [
@@ -343,7 +343,7 @@ export class App {
     ],
   };
 
-  interactiveTreeOptions: ApexTreeOptions = {
+  interactiveTreeOptions: Partial<TreeOptions> = {
     width: 900,
     height: 400,
     nodeWidth: 130,

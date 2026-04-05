@@ -7,17 +7,11 @@ export { NgxApextreeComponent } from './lib/ngx-apextree.component';
 
 // types
 export type {
-  ApexTreeOptions,
+  TreeOptions,
+  NestedNode,
   ApexTreeGraph,
-  TreeNode,
   NodeClickEvent,
   TreeDirection,
-  NodeOptions,
-  TooltipOptions,
-  FontOptions,
-  EdgeOptions,
-  NodeStylingOptions,
-  ExpandCollapseOptions,
 } from './lib/ngx-apextree.types';
 
 // license utilities
