@@ -38,7 +38,7 @@ jobs:
 
       - name: Verify package.json version matches commit message
         run: |
-          PKG_VERSION=$(node -p "require('./package.json').version")
+          PKG_VERSION=$(node -p "require('./projects/ngx-apextree/package.json').version")
           MSG_VERSION="${{ steps.check.outputs.version }}"
           if [ "$PKG_VERSION" != "$MSG_VERSION" ]; then
             echo "❌ package.json version ($PKG_VERSION) does not match commit message version ($MSG_VERSION)"
@@ -56,7 +56,7 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance --tag ${{ steps.check.outputs.tag }}
-        working-directory: dist
+        working-directory: dist/ngx-apextree
 
       - name: Create git tag
         run: |
