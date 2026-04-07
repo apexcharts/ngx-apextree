@@ -197,6 +197,10 @@ Alternatively, use Angular's `ng-template` for tooltip rendering:
 </ngx-apextree>
 ```
 
+### `graphUpdated`
+
+Emits the same `ApexTreeGraph` instance as `graphReady`, but fires every time the tree re-renders due to a `data` or `options` change. Useful for re-applying imperative state (e.g. re-collapsing nodes) after a data update.
+
 ### Graph Methods
 
 Access graph methods through component reference or the emitted graph instance:
@@ -243,10 +247,10 @@ export class AppComponent {
 
 ### Inputs
 
-| Input     | Type              | Description           |
-| --------- | ----------------- | --------------------- |
-| `data`    | `NestedNode`             | Tree data structure   |
-| `options` | `Partial<TreeOptions>`   | Configuration options |
+| Input     | Type                   | Description           |
+| --------- | ---------------------- | --------------------- |
+| `data`    | `NestedNode`           | Tree data structure   |
+| `options` | `Partial<TreeOptions>` | Configuration options |
 
 ### Outputs
 
