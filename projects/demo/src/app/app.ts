@@ -26,42 +26,49 @@ export class App {
   graphInstance: ApexTreeGraph | null = null;
 
   // basic tree data
-  basicTreeData: NestedNode = {
+  basicTreeData: NestedNode<any> = {
     id: '1',
     name: 'Species',
+    data: null,
     children: [
       {
         id: '2',
         name: 'Plants',
+        data: null,
         children: [
-          { id: '3', name: 'Mosses' },
-          { id: '4', name: 'Ferns' },
-          { id: '5', name: 'Gymnosperms' },
+          { id: '3', name: 'Mosses', data: null, children: [] },
+          { id: '4', name: 'Ferns', data: null, children: [] },
+          { id: '5', name: 'Gymnosperms', data: null, children: [] },
         ],
       },
       {
         id: '6',
         name: 'Fungi',
+        data: null,
+        children: [],
       },
       {
         id: '7',
         name: 'Animals',
+        data: null,
         children: [
           {
             id: '8',
             name: 'Invertebrates',
+            data: null,
             children: [
-              { id: '9', name: 'Insects' },
-              { id: '10', name: 'Molluscs' },
+              { id: '9', name: 'Insects', data: null, children: [] },
+              { id: '10', name: 'Molluscs', data: null, children: [] },
             ],
           },
           {
             id: '11',
             name: 'Vertebrates',
+            data: null,
             children: [
-              { id: '12', name: 'Fish' },
-              { id: '13', name: 'Birds' },
-              { id: '14', name: 'Mammals' },
+              { id: '12', name: 'Fish', data: null, children: [] },
+              { id: '13', name: 'Birds', data: null, children: [] },
+              { id: '14', name: 'Mammals', data: null, children: [] },
             ],
           },
         ],
@@ -91,16 +98,14 @@ export class App {
   };
 
   // custom template tree data
-  customTreeData: NestedNode = {
+  customTreeData: NestedNode<any> = {
     id: 'ms',
     data: {
       name: 'Margret Swanson',
       role: 'CEO',
       imageURL: 'https://i.pravatar.cc/300?img=68',
     },
-    options: {
-      nodeBGColor: '#cdb4db',
-    },
+    options: { nodeBGColor: '#cdb4db' } as any,
     children: [
       {
         id: 'mh',
@@ -109,9 +114,7 @@ export class App {
           role: 'CTO',
           imageURL: 'https://i.pravatar.cc/300?img=69',
         },
-        options: {
-          nodeBGColor: '#ffafcc',
-        },
+        options: { nodeBGColor: '#ffafcc' } as any,
         children: [
           {
             id: 'kb',
@@ -120,9 +123,8 @@ export class App {
               role: 'Dev Lead',
               imageURL: 'https://i.pravatar.cc/300?img=65',
             },
-            options: {
-              nodeBGColor: '#f8ad9d',
-            },
+            options: { nodeBGColor: '#f8ad9d' } as any,
+            children: [],
           },
           {
             id: 'cr',
@@ -131,9 +133,8 @@ export class App {
               role: 'QA Lead',
               imageURL: 'https://i.pravatar.cc/300?img=60',
             },
-            options: {
-              nodeBGColor: '#c9cba3',
-            },
+            options: { nodeBGColor: '#c9cba3' } as any,
+            children: [],
           },
         ],
       },
@@ -144,9 +145,7 @@ export class App {
           role: 'CFO',
           imageURL: 'https://i.pravatar.cc/300?img=59',
         },
-        options: {
-          nodeBGColor: '#00afb9',
-        },
+        options: { nodeBGColor: '#00afb9' } as any,
         children: [
           {
             id: 'nc',
@@ -155,9 +154,8 @@ export class App {
               role: 'Finance Manager',
               imageURL: 'https://i.pravatar.cc/300?img=57',
             },
-            options: {
-              nodeBGColor: '#84a59d',
-            },
+            options: { nodeBGColor: '#84a59d' } as any,
+            children: [],
           },
           {
             id: 'fw',
@@ -166,9 +164,8 @@ export class App {
               role: 'Accountant',
               imageURL: 'https://i.pravatar.cc/300?img=52',
             },
-            options: {
-              nodeBGColor: '#0081a7',
-            },
+            options: { nodeBGColor: '#0081a7' } as any,
+            children: [],
           },
         ],
       },
@@ -192,7 +189,7 @@ export class App {
   };
 
   // tooltip template tree data
-  tooltipTreeData: NestedNode = {
+  tooltipTreeData: NestedNode<any> = {
     id: 'ceo',
     data: {
       name: 'Sarah Johnson',
@@ -224,6 +221,7 @@ export class App {
               phone: '+1 (555) 345-6789',
               location: 'Austin, TX',
             },
+            children: [],
           },
           {
             id: 'devops-lead',
@@ -235,6 +233,7 @@ export class App {
               phone: '+1 (555) 456-7890',
               location: 'Seattle, WA',
             },
+            children: [],
           },
         ],
       },
@@ -259,6 +258,7 @@ export class App {
               phone: '+1 (555) 678-9012',
               location: 'Chicago, IL',
             },
+            children: [],
           },
         ],
       },
@@ -319,26 +319,31 @@ export class App {
   };
 
   // interactive tree
-  interactiveTreeData: NestedNode = {
+  interactiveTreeData: NestedNode<any> = {
     id: 'root',
     name: 'Root Node',
+    data: null,
     children: [
       {
         id: 'child1',
         name: 'Child 1',
+        data: null,
         children: [
-          { id: 'grandchild1', name: 'Grandchild 1' },
-          { id: 'grandchild2', name: 'Grandchild 2' },
+          { id: 'grandchild1', name: 'Grandchild 1', data: null, children: [] },
+          { id: 'grandchild2', name: 'Grandchild 2', data: null, children: [] },
         ],
       },
       {
         id: 'child2',
         name: 'Child 2',
-        children: [{ id: 'grandchild3', name: 'Grandchild 3' }],
+        data: null,
+        children: [{ id: 'grandchild3', name: 'Grandchild 3', data: null, children: [] }],
       },
       {
         id: 'child3',
         name: 'Child 3',
+        data: null,
+        children: [],
       },
     ],
   };
