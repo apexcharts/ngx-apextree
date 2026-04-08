@@ -97,8 +97,9 @@ export class App {
     enableToolbar: true,
   };
 
-  // custom template tree data
-  customTreeData: NestedNode<any> = {
+  // custom template tree data (uses contentKey: 'data', no top-level name field)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  customTreeData: any = {
     id: 'ms',
     data: {
       name: 'Margret Swanson',
@@ -188,8 +189,9 @@ export class App {
     enableExpandCollapse: true,
   };
 
-  // tooltip template tree data
-  tooltipTreeData: NestedNode<any> = {
+  // tooltip template tree data (uses contentKey: 'data', no top-level name field)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tooltipTreeData: any = {
     id: 'ceo',
     data: {
       name: 'Sarah Johnson',
