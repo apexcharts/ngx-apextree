@@ -1,4 +1,5 @@
 import ApexTree from 'apextree';
+import type { NestedNode } from 'apextree';
 
 /**
  * Tree configuration options — inferred from the ApexTree constructor.
@@ -7,9 +8,9 @@ import ApexTree from 'apextree';
 export type TreeOptions = NonNullable<ConstructorParameters<typeof ApexTree>[1]>;
 
 /**
- * Tree node data structure — inferred from the ApexTree render method.
+ * Tree node data structure — re-exported from apextree to preserve generics.
  */
-export type NestedNode = Parameters<InstanceType<typeof ApexTree>['render']>[0];
+export type { NestedNode };
 
 export type TreeDirection = 'top' | 'bottom' | 'left' | 'right';
 
