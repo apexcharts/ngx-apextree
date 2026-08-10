@@ -269,14 +269,53 @@ export class AppComponent {
 
 ### Component Methods
 
-| Method         | Parameters                 | Description           |
-| -------------- | -------------------------- | --------------------- |
-| `changeLayout` | `direction: TreeDirection` | Change tree direction |
-| `collapse`     | `nodeId: string`           | Collapse a node       |
-| `expand`       | `nodeId: string`           | Expand a node         |
-| `fitScreen`    | -                          | Fit graph to screen   |
-| `getGraph`     | -                          | Get graph instance    |
-| `render`       | -                          | Manually re-render    |
+Conveniences for the common verbs. Anything not listed is reachable through
+`getGraph()`, which returns the fully typed graph instance.
+
+| Method            | Parameters                 | Description                                |
+| ----------------- | -------------------------- | ------------------------------------------ |
+| `changeLayout`    | `direction: TreeDirection` | Change tree direction                      |
+| `collapse`        | `nodeId: string`           | Collapse a node                            |
+| `expand`          | `nodeId: string`           | Expand a node                              |
+| `fitScreen`       | -                          | Fit graph to screen                        |
+| `updateData`      | `data: NestedNode`         | Reconcile a new dataset with animation     |
+| `expandAll`       | -                          | Expand every node                          |
+| `collapseAll`     | -                          | Collapse every node                        |
+| `expandToDepth`   | `depth: number`            | Expand down to a given depth               |
+| `focus`           | `nodeId: string`           | Spotlight a node's lineage and subtree     |
+| `clearFocus`      | -                          | Clear the spotlight                        |
+| `setActivePath`   | `nodeIds: string[]`        | Flow an animated dash along the lineage    |
+| `clearActivePath` | -                          | Clear the active path                      |
+| `toggleCard`      | `nodeId: string`           | Expand or collapse a node's card in place  |
+| `zoom`            | `factor: number`           | Zoom relative to the current scale         |
+| `centerOnNode`    | `nodeId: string`           | Center the camera on a node                |
+| `getGraph`        | -                          | Get graph instance                         |
+| `render`          | -                          | Force a full rebuild                       |
+
+Everything from `updateData` down requires `apextree >= 2.0.0`.
+
+`getGraph()` is typed off the core `apextree` you have installed, so it also covers
+`expandSubtree`, `collapseSubtree`, `expandCard`, `collapseCard`,
+`setExpandedCards`, `getExpandedCards`, `getFocusedNodeId`, `getActivePath`,
+`setSelection`, `getSelection`, `clearSelection`, `getRootNodeId` and `getNodeLabel`.
+
+## Animated data updates
+
+Changing the `data` input reconciles the new dataset into the live tree rather than
+rebuilding it: surviving nodes spring to their new positions, new ids grow in, and
+departed ones retract. Collapse state, selection, focus and expanded cards all
+survive, and `graphUpdated` still fires.
+
+```ts
+// binding a new object to [data] is enough
+this.data = nextQuarter;
+```
+
+This needs `apextree >= 2.0.0`. On an older core the component falls back to a full
+rebuild.
+
+Changing the `options` input still rebuilds the instance, since options are read at
+construction, as does calling `render()`.
 
 ## License Setup
 

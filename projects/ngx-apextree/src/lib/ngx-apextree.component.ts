@@ -104,9 +104,15 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
 
-    // re-render on data or options change
-    if (changes['data'] || changes['options']) {
+    // Options are read at construction, so a change there needs a fresh instance.
+    if (changes['options']) {
       this.updateChart();
+      return;
+    }
+
+    // A data-only change reconciles into the live tree instead of rebuilding it.
+    if (changes['data']) {
+      this.applyData();
     }
   }
 
@@ -159,6 +165,89 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   /**
+   * reconcile a new dataset into the live tree: surviving nodes spring to their new
+   * positions, new ids grow in, departed ones retract, and collapse state /
+   * selection / focus / expanded cards survive.
+   *
+   * Requires apextree >= 2.0.0. On an older core (the `>=1.9.0` peer range still
+   * allows one) this falls back to a full rebuild.
+   */
+  updateData(data: NestedNode): void {
+    this.data = data;
+    this.applyData();
+  }
+
+  /**
+   * expand every node in the tree
+   */
+  expandAll(): void {
+    this.runOnGraph((graph) => graph.expandAll());
+  }
+
+  /**
+   * collapse every node in the tree
+   */
+  collapseAll(): void {
+    this.runOnGraph((graph) => graph.collapseAll());
+  }
+
+  /**
+   * expand the tree down to a given depth
+   */
+  expandToDepth(depth: number): void {
+    this.runOnGraph((graph) => graph.expandToDepth(depth));
+  }
+
+  /**
+   * spotlight a node's lineage and visible subtree
+   */
+  focus(nodeId: string): void {
+    this.runOnGraph((graph) => graph.focus(nodeId));
+  }
+
+  /**
+   * clear the spotlight
+   */
+  clearFocus(): void {
+    this.runOnGraph((graph) => graph.clearFocus());
+  }
+
+  /**
+   * flow an animated dash along the root-to-node lineage
+   */
+  setActivePath(nodeIds: string[]): void {
+    this.runOnGraph((graph) => graph.setActivePath(nodeIds));
+  }
+
+  /**
+   * clear the active path
+   */
+  clearActivePath(): void {
+    this.runOnGraph((graph) => graph.clearActivePath());
+  }
+
+  /**
+   * expand or collapse a node's card in place (not its children)
+   */
+  toggleCard(nodeId: string): void {
+    this.runOnGraph((graph) => graph.toggleCard(nodeId));
+  }
+
+  /**
+   * zoom relative to the current scale
+   */
+  zoom(factor: number): void {
+    this.runOnGraph((graph) => graph.zoom(factor));
+  }
+
+  /**
+   * center the camera on a node, keeping the current zoom
+   */
+  centerOnNode(nodeId: string): void {
+    this.runOnGraph((graph) => graph.centerOnNode(nodeId));
+  }
+
+  /**
    * get the underlying graph instance
    */
   getGraph(): ApexTreeGraph | null {
@@ -166,10 +255,46 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   /**
-   * manually trigger a re-render
+   * manually trigger a full rebuild
    */
   render(): void {
     this.updateChart();
+  }
+
+  /**
+   * Run a graph call outside Angular, since the core drives its own rAF loop and
+   * must not trip change detection on every animation frame.
+   */
+  private runOnGraph(fn: (graph: ApexTreeGraph) => void): void {
+    if (!this.graphInstance) {
+      return;
+    }
+    const graph = this.graphInstance;
+    this.ngZone.runOutsideAngular(() => fn(graph));
+  }
+
+  /**
+   * Reconcile the current `data` into the live tree, falling back to a rebuild when
+   * the installed core predates `updateData`.
+   */
+  private applyData(): void {
+    if (!isPlatformBrowser(this.platformId) || !this.data) {
+      return;
+    }
+
+    const graph = this.graphInstance;
+    if (!graph || typeof graph.updateData !== 'function') {
+      this.updateChart();
+      return;
+    }
+
+    const data = this.data;
+    this.ngZone.runOutsideAngular(() => {
+      graph.updateData(data);
+      this.ngZone.run(() => {
+        this.graphUpdated.emit(graph);
+      });
+    });
   }
 
   private initChart(): void {
@@ -196,8 +321,9 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
 
-    // destroy and recreate for now
-    // apextree doesn't have an update method
+    // Full rebuild. Used for an options change (options are read at construction)
+    // and as the fallback when the installed core predates `updateData`. A
+    // data-only change goes through `applyData()` and animates instead.
     this.destroyChart();
 
     if (this.data) {
