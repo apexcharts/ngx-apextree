@@ -2,7 +2,7 @@
   "name": "ngx-apextree",
   "version": "1.2.0",
   "description": "Angular wrapper for ApexTree - hierarchical and organizational chart library",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "SEE LICENSE IN LICENSE.md",
   "author": "ApexCharts",
   "repository": {
     "type": "git",
