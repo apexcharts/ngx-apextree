@@ -46,4 +46,4 @@ See the [library README](./projects/ngx-apextree/README.md) for usage documentat
 
 ## License
 
-See [LICENSE](./LICENSE) for details.
+See [LICENSE](./LICENSE.md) for details.

@@ -369,4 +369,4 @@ See the full list of options in the [ApexTree documentation](https://github.com/
 
 ## License
 
-See [LICENSE](./LICENSE) for details.
+See [LICENSE](./LICENSE.md) for details.
