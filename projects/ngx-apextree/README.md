@@ -289,6 +289,7 @@ Conveniences for the common verbs. Anything not listed is reachable through
 | `toggleCard`      | `nodeId: string`           | Expand or collapse a node's card in place  |
 | `zoom`            | `factor: number`           | Zoom relative to the current scale         |
 | `centerOnNode`    | `nodeId: string`           | Center the camera on a node                |
+| `refreshTokens`   | -                          | Re-read the theme tokens and repaint (`apextree >= 2.3.0`) |
 | `getGraph`        | -                          | Get graph instance                         |
 | `render`          | -                          | Force a full rebuild                       |
 
@@ -316,6 +317,61 @@ rebuild.
 
 Changing the `options` input still rebuilds the instance, since options are read at
 construction, as does calling `render()`.
+
+## Using with Ignite UI
+
+From ApexTree 2.3.0, trees can follow the Ignite UI theme on the page: text,
+borders, the accent, the font, surfaces, light or dark. It is an add-on that ships
+in the core `apextree` package. Import it once, in `main.ts` or anywhere before the
+first tree renders:
+
+```typescript
+// main.ts
+import 'apextree/ignite-ui';
+```
+
+Without a bundler, load `apextree.ignite-ui.min.js` with a script tag, before or
+after `apextree.min.js`. Without the add-on the `--ig-*` tokens are ignored, with
+no error; the `--apx-*` tokens work either way.
+
+When several layers set the same thing, the highest one wins:
+
+| Rank | Source                              |
+| ---- | ----------------------------------- |
+| 1    | An option you pass in `options`     |
+| 2    | An `--apex-tree-*` CSS variable     |
+| 3    | An `--apx-*` family token           |
+| 4    | The named or registered `theme`     |
+| 5    | The Ignite UI `--ig-*` tokens       |
+| 6    | The built-in defaults               |
+
+Leave `theme` unset to follow a design system that declares a dark variant;
+naming a theme pins it.
+
+To turn it off for one tree, pass `designSystem: false` (the `--apx-*` tokens
+still apply) or `tokens: false` (neither the `--apx-*` tokens nor the design
+system are read):
+
+```html
+<ngx-apextree [data]="data" [options]="{ designSystem: false }"></ngx-apextree>
+```
+
+The tree reads its tokens on every render. After a stylesheet swap (an Ignite UI
+light/dark switch, say), or when the add-on loads after the first render, call
+`refreshTokens()` on the component. Nodes, expanded cards, selection, focus and
+the active path are kept:
+
+```typescript
+themeLink.onload = () => this.tree.refreshTokens();
+```
+
+If the theme's font is a web font that finishes loading after the first render,
+the tree is drawn with the fallback font until then; call `refreshTokens()` once it
+has loaded:
+
+```typescript
+document.fonts.ready.then(() => this.tree.refreshTokens());
+```
 
 ## License Setup
 

@@ -165,6 +165,22 @@ export class NgxApextreeComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   /**
+   * re-read the `--apex-tree-*` variables, the `--apx-*` tokens, the registered
+   * theme and the page's design system, and repaint at the current zoom. Call it
+   * after a stylesheet swap (an Ignite UI light/dark switch, say) or when the
+   * `apextree/ignite-ui` add-on loads after the first render.
+   *
+   * Requires apextree >= 2.3.0; a no-op on older cores and before the first render.
+   */
+  refreshTokens(): void {
+    const tree = this.treeInstance;
+    if (!tree || typeof tree.refreshTokens !== 'function') {
+      return;
+    }
+    this.ngZone.runOutsideAngular(() => tree.refreshTokens());
+  }
+
+  /**
    * reconcile a new dataset into the live tree: surviving nodes spring to their new
    * positions, new ids grow in, departed ones retract, and collapse state /
    * selection / focus / expanded cards survive.
